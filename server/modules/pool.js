@@ -4,11 +4,10 @@
 
  change `secure_submarine` to the name of your database, and you should be all set!
 */
-var pool = new Pool()
+// var pool = new Pool()
 const Pool = require('pg-pool');
 const url = require('url')
 const pg = require('pg');
-const url = require('url');
 
 let config = {};
 
@@ -48,24 +47,9 @@ pool.on('error', (err) => {
   process.exit(-1);
 });
 
-var pool2 = new Pool({
-  database: 'postgres',
-  user: 'brianc',
-  password: 'secret!',
-  port: 5432,
-  ssl: true,
-  max: 20, // set pool max size to 20
-  idleTimeoutMillis: 1000, // close idle clients after 1 second
-  connectionTimeoutMillis: 1000, // return an error after 1 second if connection could not be established
-})
-
-//you can supply a custom client constructor
-//if you want to use the native postgres client
-var NativeClient = require('pg').native.Client
-var nativePool = new Pool({ Client: NativeClient })
-
-//you can even pool pg-native clients directly
-var PgNativeClient = require('pg-native')
-var pgNativePool = new Pool({ Client: PgNativeClient })
+// the pool will log when it connects to the database
+pool.on('connect', () => {
+  console.log('Postgesql connected');
+});
 
 module.exports = pool;
